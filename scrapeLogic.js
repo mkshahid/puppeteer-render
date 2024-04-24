@@ -16,29 +16,36 @@ const scrapeLogic = async (res) => {
   });
   try {
     const page = await browser.newPage();
+    const teamName = "Los Angeles Clippers";
 
-    await page.goto("https://developer.chrome.com/");
+    await page.goto("https://www.basketball-reference.com/boxscores/202404140LAC.html", { waitUntil: "networkidle2" });
 
-    // Set screen size
-    await page.setViewport({ width: 1080, height: 1024 });
-
-    // Type into search box
-    await page.type(".search-box__input", "automate beyond recorder");
-
-    // Wait and click on first result
-    const searchResultSelector = ".search-box__link";
-    await page.waitForSelector(searchResultSelector);
-    await page.click(searchResultSelector);
-
-    // Locate the full title with a unique string
-    const textSelector = await page.waitForSelector(
-      "text/Customize and automate"
-    );
-    const fullTitle = await textSelector.evaluate((el) => el.textContent);
-
-    // Print the full title
-    const logStatement = `The title of this blog post is ${fullTitle}`;
-    console.log(logStatement);
+    const data = await page.evaluate(() => {
+      const teamNames = Array.from(document.querySelectorAll('.media-item')).map(x => x.nextElementSibling.textContent);
+      const scores = Array.from(document.querySelectorAll('.score')).map(x => x.textContent);
+  
+      let table = [];
+      let headers, body;
+  
+      if (teamNames[0] === teamName) {
+        headers = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):first thead tr:eq(1) th")).map(x => x.textContent);
+        body = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):first tbody tr")).map(tr => Array.from(tr.querySelectorAll('td, th')).map(td => td.textContent));
+      } else {
+        headers = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):gt(0) thead tr:eq(1) th")).map(x => x.textContent);
+        body = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):gt(0) tbody tr")).map(tr => Array.from(tr.querySelectorAll('td, th')).map(td => td.textContent));
+      }
+  
+      table.push(headers);
+      body.forEach(row => {
+        while (row.length < headers.length) {
+          row.push('');
+        }
+        table.push(row);
+      });
+  
+      return { teamNames, scores, table };
+    });
+    const logStatement = data.teamNames[0], data.scores[0], "-", data.teamNames[1], data.scores[1];
     res.send(logStatement);
   } catch (e) {
     console.error(e);
