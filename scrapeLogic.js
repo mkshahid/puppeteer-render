@@ -15,7 +15,7 @@ const scrapeLogic = async (res) => {
         : puppeteer.executablePath(),
   });
   try {
-    // const page = await browser.newPage();
+    const page = await browser.newPage();
     // const teamName = "Los Angeles Clippers";
 
     await page.goto("https://developer.chrome.com/");
