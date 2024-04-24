@@ -48,7 +48,7 @@ const scrapeLogic = async (res) => {
     //   return { teamNames, scores };
     // });
     // const logStatement = data.teamNames[0] + "-" + data.teamNames[1];
-    const logStatement = "HI THERE";
+    const logStatement = "HI THERE 2";
     res.send(logStatement);
   } catch (e) {
     console.error(e);
