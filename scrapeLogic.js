@@ -24,28 +24,28 @@ const scrapeLogic = async (res) => {
       const teamNames = Array.from(document.querySelectorAll('.media-item')).map(x => x.nextElementSibling.textContent);
       const scores = Array.from(document.querySelectorAll('.score')).map(x => x.textContent);
   
-      let table = [];
-      let headers, body;
+      // let table = [];
+      // let headers, body;
   
-      if (teamNames[0] === teamName) {
-        headers = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):first thead tr:eq(1) th")).map(x => x.textContent);
-        body = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):first tbody tr")).map(tr => Array.from(tr.querySelectorAll('td, th')).map(td => td.textContent));
-      } else {
-        headers = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):gt(0) thead tr:eq(1) th")).map(x => x.textContent);
-        body = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):gt(0) tbody tr")).map(tr => Array.from(tr.querySelectorAll('td, th')).map(td => td.textContent));
-      }
+      // if (teamNames[0] === teamName) {
+      //   headers = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):first thead tr:eq(1) th")).map(x => x.textContent);
+      //   body = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):first tbody tr")).map(tr => Array.from(tr.querySelectorAll('td, th')).map(td => td.textContent));
+      // } else {
+      //   headers = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):gt(0) thead tr:eq(1) th")).map(x => x.textContent);
+      //   body = Array.from(document.querySelectorAll("table:has(caption:contains('Basic and Advanced Stats Table')):gt(0) tbody tr")).map(tr => Array.from(tr.querySelectorAll('td, th')).map(td => td.textContent));
+      // }
   
-      table.push(headers);
-      body.forEach(row => {
-        while (row.length < headers.length) {
-          row.push('');
-        }
-        table.push(row);
-      });
+      // table.push(headers);
+      // body.forEach(row => {
+      //   while (row.length < headers.length) {
+      //     row.push('');
+      //   }
+      //   table.push(row);
+      // });
   
-      return { teamNames, scores, table };
+      return { teamNames, scores };
     });
-    const logStatement = data.teamNames[0], data.scores[0], "-", data.teamNames[1], data.scores[1];
+    const logStatement = data.teamNames[0] + "-" + data.teamNames[1];
     res.send(logStatement);
   } catch (e) {
     console.error(e);
