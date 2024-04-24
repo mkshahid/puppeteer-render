@@ -18,6 +18,8 @@ const scrapeLogic = async (res) => {
     // const page = await browser.newPage();
     // const teamName = "Los Angeles Clippers";
 
+    await page.goto("https://developer.chrome.com/");
+
     // await page.goto("https://www.basketball-reference.com/players/c/clarkja02/gamelog/2023");
 
     // const data = await page.evaluate(() => {
