@@ -18,7 +18,7 @@ const scrapeLogic = async (res) => {
     const page = await browser.newPage();
     const teamName = "Los Angeles Clippers";
 
-    await page.goto("https://www.basketball-reference.com/boxscores/202404140LAC.html", { waitUntil: "networkidle2" });
+    await page.goto("https://www.basketball-reference.com/boxscores/202404140LAC.html");
 
     const data = await page.evaluate(() => {
       const teamNames = Array.from(document.querySelectorAll('.media-item')).map(x => x.nextElementSibling.textContent);
